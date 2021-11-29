@@ -108,12 +108,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnMapClickListener
         val destinationPoint = Point.fromLngLat(point.longitude, point.latitude)
         if (ActivityCompat.checkSelfPermission(
                 this,
-                Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION,
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.READ_PHONE_STATE)!= PackageManager.PERMISSION_GRANTED
+        )
+
+
+        {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding

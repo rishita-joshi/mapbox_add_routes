@@ -22,20 +22,20 @@
         android:orientation="horizontal"
         android:weightSum="10">
 
-<!--        <Button-->
-<!--            android:id="@+id/btnStart"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="24dp"-->
-<!--            android:layout_marginEnd="24dp"-->
-<!--            android:layout_marginTop="24dp"-->
-<!--            android:layout_marginBottom="24dp"-->
-<!--            android:layout_weight="8"-->
-<!--            android:background="@color/mapboxGrayLight"-->
-<!--            android:enabled="true"-->
-<!--            android:text="@string/start_navigation"-->
-<!--            android:onClick="startNavigationBtnClick"-->
-<!--            android:layout_marginLeft="24dp" />-->
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:layout_weight="8"
+            android:background="@color/mapboxGrayLight"
+            android:enabled="true"
+            android:text="@string/start_navigation"
+            android:onClick="startNavigationBtnClick"
+            android:layout_marginLeft="24dp" />
 
 
     </LinearLayout>

@@ -24,7 +24,7 @@
 
         <Button
             android:id="@+id/btnStart"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
@@ -34,10 +34,20 @@
             android:background="@color/mapboxGrayLight"
             android:enabled="true"
             android:text="@string/start_navigation"
-            android:onClick="startNavigationBtnClick"
-            android:layout_marginLeft="24dp" />
+            android:onClick="startNavigationBtnClick" />
 
-
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/fab_location_search"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="end|bottom"-->
+<!--            android:layout_margin="16dp"-->
+<!--            android:layout_weight="2"-->
+<!--            android:onClick= "initSearchFab"-->
+<!--            android:tint="@android:color/white"-->
+<!--            app:backgroundTint="@color/colorPrimary"-->
+<!--            app:srcCompat="@android:drawable/ic_search_category_default"-->
+<!--            />-->
     </LinearLayout>
 
 </RelativeLayout>

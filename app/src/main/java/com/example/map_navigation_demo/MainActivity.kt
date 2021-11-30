@@ -3,9 +3,10 @@ package com.example.map_navigation_demo
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +26,8 @@ import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.MapboxMap.OnMapClickListener
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
 import com.mapbox.mapboxsdk.maps.Style
-import com.mapbox.mapboxsdk.maps.Style.OnStyleLoaded
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
@@ -46,9 +48,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnMapClickListener
     var permissionsManager: PermissionsManager? = null
     var currentRoute: DirectionsRoute? = null
     var navigationMapRoute: NavigationMapRoute? = null
+   // var fab_location_search: FloatingActionButton? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Mapbox.getInstance(
+
+//
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+//            val res = checkSelfPermission(Manifest.permission.READ_PHONE_STATE )
+//            if (res != PackageManager.PERMISSION_GRANTED) {
+//                requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE , Manifest.permission.ACCESS_FINE_LOCATION , Manifest.permission.ACCESS_COARSE_LOCATION), 123)
+//            }
+//        }
+
+       Mapbox.getInstance(
             this,
             "pk.eyJ1IjoiZm9ybWljcyIsImEiOiJja3dhZHN1NHc4NTljMnVtdGoycGNhaGU0In0.AdObMlYwx_adlVGF7lrREw"
         )
@@ -56,29 +69,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnMapClickListener
         mapView = findViewById<View>(R.id.mapView) as MapView
         mapView!!.onCreate(savedInstanceState)
         mapView!!.getMapAsync(this)
+
+
+
+
     }
-//
-//    private fun initSearchFab() {
-//        fab_location_search?.setOnClickListener { v: View? ->
-//            val intent = PlaceAutocomplete.IntentBuilder()
-//                .accessToken(
-//                    (if (Mapbox.getAccessToken() != null) Mapbox.getAccessToken() else getString(
-//                        R.string.mapbox_access_token
-//                    ))!!
-//                )
-//                .placeOptions(
-//                    PlaceOptions.builder()
-//                        .backgroundColor(Color.parseColor("#EEEEEE"))
-//                        .limit(10) //.addInjectedFeature(home)
-//                        //.addInjectedFeature(work)
-//                        .build(PlaceOptions.MODE_CARDS)
-//                )
-//                .build(this@MainActivity)
-//            startActivityForResult(
-//                intent, REQUEST_CODE_AUTOCOMPLETE
-//            )
-//        }
-//    }
+
 
     fun startNavigationBtnClick(v: View?) {
 
@@ -87,11 +83,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnMapClickListener
         }
 
         val simulateRoute = true
+
         val options = NavigationLauncherOptions.builder()
-            .directionsRoute(currentRoute)
-            .shouldSimulateRoute(simulateRoute)
+            .directionsRoute(currentRoute).waynameChipEnabled(true)
+           // .shouldSimulateRoute(simulateRoute)
             .build()
         NavigationLauncher.startNavigation(this@MainActivity, options)
+
+
     }
 
     override fun onExplanationNeeded(permissionsToExplain: List<String>) {}
@@ -113,11 +112,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnMapClickListener
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.READ_PHONE_STATE)!= PackageManager.PERMISSION_GRANTED
-        )
-
-
-        {
+                this, Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -169,7 +166,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnMapClickListener
                 }
 
                 override fun onFailure(call: Call<DirectionsResponse?>, t: Throwable) {
-                    Toast.makeText(this@MainActivity,t.message,Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
                 }
             })
     }
@@ -230,12 +227,23 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnMapClickListener
         permissions: Array<String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionsManager!!.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onStart() {
         super.onStart()
         mapView!!.onStart()
+
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+//            val res = checkSelfPermission(Manifest.permission.READ_PHONE_STATE)
+//            if (res != PackageManager.PERMISSION_GRANTED) {
+//                requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE , Manifest.permission.ACCESS_FINE_LOCATION , Manifest.permission.ACCESS_COARSE_LOCATION), 123)
+//            }
+//        }
+
+
+
     }
 
     override fun onResume() {
@@ -267,4 +275,28 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnMapClickListener
         super.onLowMemory()
         mapView!!.onLowMemory()
     }
+
+    fun initSearchFab(view: View) {
+
+        val intent = PlaceAutocomplete.IntentBuilder()
+            .accessToken(
+                (if (Mapbox.getAccessToken() != null) Mapbox.getAccessToken() else getString(
+                    R.string.mapbox_access_token
+                ))!!
+            )
+            .placeOptions(
+                PlaceOptions.builder()
+                    .backgroundColor(Color.parseColor("#EEEEEE"))
+                    .limit(10) //.addInjectedFeature(home)
+                    //.addInjectedFeature(work)
+                    .build(PlaceOptions.MODE_CARDS)
+            )
+            .build(this@MainActivity)
+        startActivityForResult(
+            intent, 101
+        )
+
+    }
+
+
 }

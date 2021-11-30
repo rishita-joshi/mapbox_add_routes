@@ -1,10 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-
-//  apply plugin: 'com.android.application'
-//    apply plugin: 'kotlin-android'
-
 }
 
     android {
@@ -18,7 +14,7 @@ plugins {
     defaultConfig {
         applicationId "com.example.map_navigation_demo"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 30
         multiDexEnabled = true
         versionCode 1
         versionName "1.0"
@@ -45,11 +41,11 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
 //    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.5.0'
 //
@@ -69,8 +65,9 @@ dependencies {
         transitive = true
     }
 
-    implementation 'com.google.android.material:material:1.2.1'
-
+    implementation 'com.google.android.material:material:1.4.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-places-v9:0.12.0'
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 }
